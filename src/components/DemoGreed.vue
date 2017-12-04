@@ -17,12 +17,9 @@
         <tbody>
         <tr v-for="entry in filteredData">
           <td class="cs335">
-            <button id="show-modal" @click="showModal = true">
+            <div class="tooltip">
               <img :src="entry.picture.thumbnail" alt="Avatar Thumbnail"/>
-            </button>
-            <!-- use the modal component, pass in the prop -->
-            <modal-window v-if="showModal" @close="showModal = false">
-              <div slot="body">
+              <div class="tooltiptext">
                 <ul>
                   <li><img :src="entry.picture.large" alt="Avatar Thumbnail"/></li>
                   <li>{{entry.location.street}}</li>
@@ -33,7 +30,7 @@
                   <li></li>
                 </ul>
               </div>
-            </modal-window>
+            </div>
           </td>
           <td class="cs335">{{entry.name.title + " " + entry.name.first + " " + entry.name.last}}</td>
           <td class="cs335">{{entry.location.city}}</td>
@@ -105,6 +102,9 @@
       sortBy: function (key) {
         this.sortKey = key
         this.sortOrders[key] = this.sortOrders[key] * -1
+      },
+      created: function () {
+        window.addEventListener('mousemove', this.move)
       }
     }
   }
@@ -113,36 +113,34 @@
 <!-- Add 'scoped' attribute to limit CSS to this component only -->
 <style scoped>
   @import url(https://fonts.googleapis.com/css?family=Open+Sans:300,400);
+  .tooltip {
+    position: relative;
+    display: inline-block;
+  }
+
+  .tooltip .tooltiptext {
+    visibility: hidden;
+    width: 10em;
+    background-color: #424242;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px 0;
+
+    /* Position the tooltip */
+    position: absolute;
+    z-index: 1;
+  }
+
+  .tooltip:hover .tooltiptext {
+    visibility: visible;
+  }
 
   ul {
     list-style-type: none;
   }
 
-  .blue {
-    background: #3498db;
-  }
-
-  .purple {
-    background: #9b59b6;
-  }
-
-  .navy {
-    background: #34495e;
-  }
-
-  .green {
-    background: #2ecc71;
-  }
-
-  .red {
-    background: #e74c3c;
-  }
-
-  .orange {
-    background: #f39c12;
-  }
-
-  .cs335, .cs426, .md303, .md352, .md313, .cs240 {
+  .cs335{
     font-weight: 300;
     cursor: pointer;
   }
@@ -191,72 +189,5 @@
     text-align: center;
   }
 
-  .time {
-    width: 3em !important;
-  }
-
-  /* Add this attribute to the element that needs a tooltip */
-  [data-tooltip] {
-    position: relative;
-    z-index: 2;
-    cursor: pointer;
-  }
-
-  /* Hide the tooltip content by default */
-  [data-tooltip]:before,
-  [data-tooltip]:after {
-    visibility: hidden;
-    filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=0);
-    opacity: 0;
-    pointer-events: none;
-    -moz-transition: ease 0.5s all;
-    -o-transition: ease 0.5s all;
-    -webkit-transition: ease 0.5s all;
-    transition: ease 0.5s all;
-  }
-
-  /* Position tooltip above the element */
-  [data-tooltip]:before {
-    position: absolute;
-    bottom: 110%;
-    left: 50%;
-    margin-bottom: 5px;
-    margin-left: -80px;
-    padding: 7px;
-    width: 160px;
-    -moz-border-radius: 6px;
-    -webkit-border-radius: 6px;
-    border-radius: 6px;
-    background-color: black;
-    color: #fff;
-    content: attr(data-tooltip);
-    text-align: center;
-    font-size: 14px;
-    line-height: 1.2;
-  }
-
-  /* Triangle hack to make tooltip look like a speech bubble */
-  [data-tooltip]:after {
-    position: absolute;
-    bottom: 110%;
-    left: 50%;
-    margin-left: -5px;
-    width: 0;
-    border-top: 5px solid black;
-    border-right: 5px solid transparent;
-    border-left: 5px solid transparent;
-    content: " ";
-    font-size: 0;
-    line-height: 0;
-  }
-
-  /* Show tooltip content on hover */
-  [data-tooltip]:hover:before,
-  [data-tooltip]:hover:after {
-    visibility: visible;
-    bottom: 90%;
-    filter: progid:DXImageTransform.Microsoft.Alpha(enabled=false);
-    opacity: 1;
-  }
 
 </style>
