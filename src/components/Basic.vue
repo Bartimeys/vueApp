@@ -1,7 +1,7 @@
 <template>
   <div id="demo">
     <form id="search">
-      Search <input name="query" v-model="searchQuery">
+      Search by name <input name="query" v-model="searchQuery">
     </form>
     <demo-greed
       :data="gridData"
@@ -44,7 +44,7 @@
       loadData: function () {
         let page = 1
         let url =
-          'https://randomuser.me/api/' + '?page=' + page + '&results=2'
+          'https://randomuser.me/api/' + '?page=' + page + '&results=20'
 
         axios.get(url).then(
           response => {
