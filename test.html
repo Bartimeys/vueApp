@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-beta.2/css/bootstrap.css" rel="stylesheet">
+  <!--<link href="src/static/style.css" rel="stylesheet">-->
+</head>
+<body>
+<!-- component template -->
+<script type="text/x-template" id="grid-template">
+  <table  v-if="filteredData != null" class="table table-responsive">
+    <thead>
+    <tr>
+      <th v-for="key in columns"
+          @click="sortBy(key)"
+          :class="{ active: sortKey == key }" class="table-success ">
+        {{ key | capitalize }}
+        <span class="arrow-up" :class="sortOrders[key] > 0 ? 'asc' : 'dsc'">
+          </span>
+      </th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr v-for="entry in filteredData">
+      <!--{{entry}}-->
+      <!--<td v-for="key in columns">-->
+      <td>
+        <img :src="entry.picture.thumbnail" alt="Avatar Thumbnail"/>
+      </td>
+      <td>{{entry.name.title+" "+ entry.name.first+" "+entry.name.last}}</td>
+      <td>{{entry.location.city}}</td>
+      <td>{{entry.email}}</td>
+      <td>{{entry.phone}}</td>
+    </tr>
+    </tbody>
+  </table>
+</script>
+
+<!-- demo root element -->
+<div id="demo">
+  <form id="search">
+    Search <input name="query" v-model="searchQuery">
+  </form>
+  <demo-grid
+    :data="gridData"
+    :columns="gridColumns"
+    :filter-key="searchQuery">
+  </demo-grid>
+</div>
+<footer class="footer">
+  <div class="container">
+  </div>
+</footer>
+<script src="https://unpkg.com/vue"></script>
+<script src="https://cdn.jsdelivr.net/vue.resource/1.0.3/vue-resource.min.js"></script>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script src="src/components/vue.js"></script>
+
+</body>
+</html>
