@@ -61,7 +61,6 @@
         )
       },
       invalidate: function (data) {
-        debugger;
         this.visibleData = data.data
       }
     }
