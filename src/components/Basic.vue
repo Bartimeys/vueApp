@@ -3,31 +3,35 @@
     <form id="search">
       Search by name <input name="query" v-model="searchQuery">
     </form>
+    <br/>
     <demo-greed
       :data="gridData"
       :columns="gridColumns"
-      :filter-key="searchQuery">
+      :filter-key="searchQuery"
+      :data-items="visibleData">
     </demo-greed>
+    <table-pager v-bind:page-size="2" :data-items="gridData" v-on:invalidate="invalidate"></table-pager>
   </div>
 </template>
 
 <script>
   import axios from 'axios'
   import DemoGreed from '../components/DemoGreed.vue'
-  import SearchList from '../components/SearchList.vue'
+  import TablePager from './TablePager.vue'
 
   export default {
     name: 'Basic',
     components: {
       DemoGreed,
-      SearchList
+      TablePager
     },
     data () {
       return {
         searchQuery: '',
-        gridColumns: ['picture', 'name', 'location', 'email', 'phone'],
+        gridColumns: ['picture', 'name', 'location', 'email', 'phone', 'gender'],
         gridData: [],
         locat: null,
+        visibleData: [],
         error: null
       }
     },
@@ -44,17 +48,21 @@
       loadData: function () {
         let page = 1
         let url =
-          'https://randomuser.me/api/' + '?page=' + page + '&results=20'
+          'https://randomuser.me/api/' + '?page=' + page + '&results=2'
 
         axios.get(url).then(
           response => {
             this.gridData = response.data.results
-            console.log(this.gridData)
+//            console.log(this.gridData)
           },
           response => {
             this.error = response
           }
         )
+      },
+      invalidate: function (data) {
+        debugger;
+        this.visibleData = data.data
       }
     }
   }

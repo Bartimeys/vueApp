@@ -1,6 +1,6 @@
 <template>
-  <transition name="modal">
-    <div class="modal-mask">
+  <transition name="modal" id="openModal" class="modalbg">
+    <div class="modal-mask dialog">
       <div class="modal-wrapper">
         <div class="modal-container">
 
@@ -16,9 +16,10 @@
 
           <div class="modal-footer">
             <slot name="footer">
-              <button class="modal-default-button" @click="$emit('close')">
-                OK
-              </button>
+              <!--<button class="modal-default-button" @click="$emit('close')">-->
+                <!--OK-->
+              <!--</button>-->
+              <a @click="$emit('close')" title="Close" class="close">X</a>
             </slot>
           </div>
         </div>
@@ -39,9 +40,11 @@
     }
   }
 </script>
-
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+  ul{
+    list-style-type: none;
+  }
   .modal-mask {
     position: fixed;
     z-index: 9998;
