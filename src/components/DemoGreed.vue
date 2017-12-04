@@ -17,7 +17,7 @@
         <tbody>
         <tr v-for="entry in filteredData">
           <td class="cs335">
-            <button id="show-modal" v-on:move="showModal = true">
+            <button id="show-modal" @click="showModal = true">
               <img :src="entry.picture.thumbnail" alt="Avatar Thumbnail"/>
             </button>
             <!-- use the modal component, pass in the prop -->
