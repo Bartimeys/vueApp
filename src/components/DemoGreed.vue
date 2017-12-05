@@ -31,6 +31,7 @@
               <div class="tooltiptext">
                 <ul>
                   <li><img :src="entry.picture.large" alt="Avatar Thumbnail"/></li>
+                  <li>Details :</li>
                   <li>{{entry.location.city}}</li>
                   <li>{{entry.location.state}}</li>
                   <li>{{entry.location.postcode}}</li>
@@ -184,6 +185,7 @@
     color: #2c3e50;
     margin: auto;
     width: 100vw;
+    text-transform: capitalize;
   }
 
   thead {
