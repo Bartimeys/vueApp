@@ -61,7 +61,6 @@
     display: table-cell;
     vertical-align: middle;
   }
-
   .modal-container {
     width: 300px;
     margin: 0px auto;
@@ -81,19 +80,6 @@
   .modal-body {
     margin: 20px 0;
   }
-
-  .modal-default-button {
-    float: right;
-  }
-
-  .modal-enter {
-    opacity: 0;
-  }
-
-  .modal-leave-active {
-    opacity: 0;
-  }
-
   .modal-enter .modal-container,
   .modal-leave-active .modal-container {
     -webkit-transform: scale(1.1);

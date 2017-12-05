@@ -1,6 +1,14 @@
 <template>
   <div>
     <div class="tab">
+      <form id="search">
+        Search by name <input name="query" v-model="searchQuery">
+        <select v-model="selectedGender" >
+          <option  value="All" >All</option>
+          <option  value="female" >female </option>
+          <option  value="male" >male</option>
+        </select>
+      </form>
       <table v-if="filteredData != null" cellspacing="0" cellpadding="0" border="0">
         <thead>
         <tr class="days">
@@ -8,8 +16,9 @@
               @click="sortBy(key)"
               :class="{ active: sortKey == key }" class="table-success ">
             {{ key | capitalize }}
-            <span class="arrow-up" :class="sortOrders[key] > 0 ? 'asc' : 'dsc'">
-          </span>
+            <i class="fa fa-chevron-up" aria-hidden="true" :class="sortOrders[key] > 0 ? 'asc' : 'dsc'"></i>
+            <!--<span class="arrow-up" :class="sortOrders[key] > 0 ? 'asc' : 'dsc'">-->
+          <!--</span>-->
 
           </th>
         </tr>
@@ -22,7 +31,6 @@
               <div class="tooltiptext">
                 <ul>
                   <li><img :src="entry.picture.large" alt="Avatar Thumbnail"/></li>
-                  <li>{{entry.location.street}}</li>
                   <li>{{entry.location.city}}</li>
                   <li>{{entry.location.state}}</li>
                   <li>{{entry.location.postcode}}</li>
@@ -44,16 +52,15 @@
   </div>
 </template>
 <script>
-  import ModalWindow from '../components/ModalWindow.vue'
   import TablePager from '../components/TablePager.vue'
 
   export default {
     components: {
-      ModalWindow,
       TablePager
     },
     props: {
       data: Array,
+      people: Array,
       columns: Array,
       filterKey: String
     },
@@ -65,9 +72,11 @@
       })
       return {
         showModal: false,
+        searchQuery: '',
         sortKey: '',
         gender: 'all',
-        sortOrders: sortOrders
+        sortOrders: sortOrders,
+        selectedGender: 'All'
       }
     },
     computed: {
@@ -91,6 +100,19 @@
           })
         }
         return data
+      },
+      filteredPeople: function () {
+        let people = this.data
+        let gender = this.selectedGender
+        if (gender === 'All') {
+          return people
+        }
+        if (gender !== 'All') {
+          return people.filter(function (person) {
+            return (gender === 'All' || person.gender === gender)
+          })
+        }
+        return people
       }
     },
     filters: {
@@ -102,9 +124,6 @@
       sortBy: function (key) {
         this.sortKey = key
         this.sortOrders[key] = this.sortOrders[key] * -1
-      },
-      created: function () {
-        window.addEventListener('mousemove', this.move)
       }
     }
   }
@@ -112,7 +131,7 @@
 
 <!-- Add 'scoped' attribute to limit CSS to this component only -->
 <style scoped>
-  @import url(https://fonts.googleapis.com/css?family=Open+Sans:300,400);
+
   .tooltip {
     position: relative;
     display: inline-block;
@@ -140,7 +159,7 @@
     list-style-type: none;
   }
 
-  .cs335{
+  .cs335 {
     font-weight: 300;
     cursor: pointer;
   }
@@ -163,6 +182,8 @@
   table {
     font-family: 'Open Sans', Helvetica;
     color: #2c3e50;
+    margin: auto;
+    width: 100vw;
   }
 
   thead {
@@ -187,6 +208,19 @@
     text-transform: uppercase;
     font-size: 0.6em;
     text-align: center;
+  }
+  input,select{
+    margin: 0 auto 15px;
+    width: 220px;
+    -moz-transition: all 0.3s;
+    -o-transition: all 0.3s;
+    -webkit-transition: all 0.3s;
+    transition: all 0.3s;
+    padding: 10px 15px;
+    border: 1px solid gray;
+  }
+  form{
+    padding: 5px;
   }
 
 

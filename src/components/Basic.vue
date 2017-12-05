@@ -1,9 +1,5 @@
 <template>
   <div id="demo">
-    <form id="search">
-      Search by name <input name="query" v-model="searchQuery">
-    </form>
-    <br/>
     <demo-greed
       :data="gridData"
       :columns="gridColumns"
@@ -32,7 +28,8 @@
         gridData: [],
         locat: null,
         visibleData: [],
-        error: null
+        error: null,
+        selectedGender: 'All'
       }
     },
     created: function () {
@@ -48,12 +45,11 @@
       loadData: function () {
         let page = 1
         let url =
-          'https://randomuser.me/api/' + '?page=' + page + '&results=2'
+          'https://randomuser.me/api/' + '?page=' + page + '&results=20'
 
         axios.get(url).then(
           response => {
             this.gridData = response.data.results
-//            console.log(this.gridData)
           },
           response => {
             this.error = response

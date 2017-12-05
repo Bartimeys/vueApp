@@ -18,7 +18,7 @@
     components: {
       DemoGreed
     },
-    props: ['pageSize', 'gridData'],
+    props: ['pageSize', 'dataItems'],
     data: function () {
       return {
         firstHidden: false,
@@ -43,23 +43,24 @@
         this.fetchData()
       },
       last: function () {
-        let maxPage = Math.ceil(this.gridData.length / this.pageSize)
+        var maxPage = Math.ceil(this.dataItems.length / this.pageSize)
         this.pageNumber = maxPage
         this.fetchData()
       },
       fetchData: function () {
-        let maxPage = Math.ceil(this.gridData.length / this.pageSize)
+        var maxPage = Math.ceil(this.dataItems.length / this.pageSize)
 
         this.firstHidden = this.pageNumber === 1
         this.prevHidden = this.pageNumber === 1
         this.nextHidden = this.pageNumber === maxPage
         this.lastHidden = this.pageNumber === maxPage
 
-        let startIndex = (this.pageNumber - 1) * this.pageSize
-        let endIndex = startIndex + this.pageSize >= this.gridData.length
-          ? startIndex + this.gridData.length - this.pageSize : startIndex + this.pageSize
+        var startIndex = (this.pageNumber - 1) * this.pageSize
+        var endIndex = startIndex + this.pageSize >= this.dataItems.length
+          ? startIndex + this.dataItems.length - this.pageSize
+          : startIndex + this.pageSize
         this.$emit('invalidate', {
-          data: this.gridData.slice(startIndex, endIndex)
+          data: this.dataItems.slice(startIndex, endIndex)
         })
       }
     },
